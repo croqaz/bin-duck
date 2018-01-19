@@ -1,0 +1,61 @@
+{
+  "authors": [
+    "Cristi Constantin <cristi.constantin@live.com>"
+  ],
+  "ava": {
+    "concurrency": 3,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "powerAssert": false
+  },
+  "bugs": {
+    "url": "https://github.com/croqaz/bin-duck/issues"
+  },
+  "dependencies": {
+    "execa": "^0.9.0"
+  },
+  "description": "Node.js wrapper for duck.sh",
+  "devDependencies": {
+    "@commitlint/cli": "6.x",
+    "@commitlint/config-conventional": "5.x",
+    "ava": "latest",
+    "husky": "0.x",
+    "prettier": "1.9.2",
+    "standard": "10.x"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "bin",
+    "wrapper",
+    "duck",
+    "ftp",
+    "ftps",
+    "sftp"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "@croqaz/bin-duck",
+  "overrides": [
+    {
+      "files": "lib/*.js",
+      "options": {
+        "printWidth": 120,
+        "semi": false,
+        "singleQuote": true
+      }
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/croqaz/bin-duck.git"
+  },
+  "scripts": {
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "format": "npx prettier --write index.js && npx standard --fix index.js",
+    "lint": "npx standard index.js",
+    "test": "npx ava"
+  },
+  "version": "0.1.0"
+}
