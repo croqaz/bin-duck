@@ -57,5 +57,5 @@
     "lint": "npx standard index.js",
     "test": "cd test/ && make test-pureftpd && make kill-pureftpd && cd .."
   },
-  "version": "0.2.0"
+  "version": "0.3.0"
 }
