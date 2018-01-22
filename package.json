@@ -55,7 +55,7 @@
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "format": "npx prettier --write index.js && npx standard --fix index.js",
     "lint": "npx standard index.js",
-    "test": "npx ava"
+    "test": "cd test/ && make test-pureftpd && make kill-pureftpd && cd .."
   },
   "version": "0.2.0"
 }
