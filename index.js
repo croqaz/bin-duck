@@ -8,8 +8,11 @@ async function list (uri, options = {}) {
   const config = { retry: 3 }
   options = { ...config, ...options }
 
+  const args = ['--nokeychain', '-yq', '-r', options.retry, '--longlist', uri]
+  addUserPasswd(options, args)
+
   try {
-    const result = await execa('duck', ['--nokeychain', '-yq', '-r', options.retry, '--longlist', uri])
+    const result = await execa('duck', args)
     return parseList(result.stdout)
   } catch (err) {
     throw err
@@ -42,10 +45,22 @@ async function download (uri, dest = '.', options = {}) {
   // Do not save passwords in keychain
   // Retry failed connection attempts
   // Use concurrent connections for transfers
-  const cmd = `duck --nokeychain -yq -r ${options.retry} --parallel ${options.parallel} --download "${uri}" "${dest}"`
+  const args = [
+    'duck',
+    '--nokeychain',
+    '-yq',
+    '-r',
+    options.retry,
+    '--parallel',
+    options.parallel,
+    '--download',
+    `"${uri}"`,
+    `"${dest}"`
+  ]
+  addUserPasswd(options, args)
 
   try {
-    const result = await execa.shell(cmd)
+    const result = await execa.shell(args.join(' '))
     return result
   } catch (err) {
     throw err
@@ -60,13 +75,37 @@ async function upload (uri, path, options = {}) {
   const config = { retry: 3, parallel: 3 }
   options = { ...config, ...options }
 
-  const cmd = `duck --nokeychain -yq -r ${options.retry} --parallel ${options.parallel} --upload "${uri}" "${path}"`
+  const args = [
+    'duck',
+    '--nokeychain',
+    '-yq',
+    '-r',
+    options.retry,
+    '--parallel',
+    options.parallel,
+    '--upload',
+    `"${uri}"`,
+    `"${path}"`
+  ]
+  addUserPasswd(options, args)
 
   try {
-    const result = await execa.shell(cmd)
+    const result = await execa.shell(args.join(' '))
     return result
   } catch (err) {
     throw err
+  }
+}
+
+function addUserPasswd (options, args) {
+  // Command line switches for user and password
+  if (options.user && typeof options.user === 'string') {
+    args.push('-u')
+    args.push(`"${options.user}"`)
+  }
+  if (options.password && typeof options.password === 'string') {
+    args.push('-p')
+    args.push(`"${options.password}"`)
   }
 }
 
